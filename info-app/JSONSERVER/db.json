@@ -1,0 +1,9 @@
+{
+    "posts": [
+      { "time": "13:37", "country": "Sweden", "from": "classroom", "event": "presentation" }
+    ],
+    "comments": [
+      { "id": 1, "body": "some comment", "postId": 1 }
+    ],
+    "profile": { "name": "typicode" }
+}
