@@ -105,7 +105,7 @@ $(document).ready(function(){
 
 
                 $("#info").append('<h3>Searched City: ' + myObj.city + ', ' + myObj.regionName + '</h3> <h1>' + myObj.temperature + ' ºF</h1> <h4> Humidity: ' + myObj.humidity + '</h4><h4> WindSpeed: ' + myObj.windSpeed + ' mph</h4> <h5> Currently ' + myObj.summary + ' It is going to be ' + myObj.minutelySummary + ' </h5> <h6> ' + myObj.hourlySummary + ' ' + myObj.dailySummary + ' </h6> <h6> Time zone: ' + myObj.timezone + ' </h6>');
-                $("#lastInfo").append('<p> You are in ' + myObj.fromCountry + ' , in a ' + myObj.from + ' during a ' + myObj.event + '</p>')
+                $("#lastInfo").append('<p> You are in ' + myObj.fromCountry + ' , in a ' + myObj.from + ' during a ' + myObj.event + ' and the time is: ' + myObj.ourTime + ' </p>');
 
            };
 
@@ -164,6 +164,11 @@ $(document).ready(function(){
 
             }
             else{
+                $("#input1").val("");
+                $("#mapGoogle").html("");
+                $("#info").html("");
+                $("#lastInfo").html("");
+                $("#idc123").html("");
                 $("#idc123").text("Well, you need to type in something...");
             }
         });
