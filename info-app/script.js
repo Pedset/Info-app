@@ -15,17 +15,21 @@ $(document).ready(function(){
     var req0 = function(){
         
         $.getJSON("http://localhost:3000/posts", function(json) {
-        console.log(json); // this will show the info it in firebug console
-        myObj.fromCountry = json[0].country;
-        myObj.event = json[0].event;
-        myObj.from = json[0].from;
-        myObj.ourTime = json[0].time;
+
+            console.log(json); // this will show the info it in firebug console
+            myObj.fromCountry = json[0].country;
+            myObj.event = json[0].event;
+            myObj.from = json[0].from;
+            myObj.ourTime = json[0].time;
         });
-        }
-        req0();
+    }
+    
+    req0();
 
     $("#input1").keyup(function(event1){
+
         if(event1.keyCode == 13){
+
             $("#btn").click();
         }         
     });
@@ -39,11 +43,14 @@ $(document).ready(function(){
 
 
     var req1 = function(){
+
         $.ajax({
+
             type: "GET",
             async: false,
             url: "http://ip-api.com/json/" + cityIp + "?fields=53247",
             success: function(data){
+
                 lat1 = data.lat;
                 lon1 = data.lon;
                 myObj.city = data.city;
@@ -54,134 +61,134 @@ $(document).ready(function(){
         });
     }
 
-        var req2 = function(){
-            $.ajax({
-                type: "GET",
-                async: false,
-                url: proxy + "https://api.darksky.net/forecast/df9589f13905bde2f60be7d1952c77e6/" + lat1 + "," + lon1 ,
-                success: function(data0){
-                    
-                    console.log(data0);
-                    myObj.temperature = data0.currently.temperature;
-                    myObj.humidity = data0.currently.humidity;
-                    myObj.summary = data0.currently.summary;
-                    myObj.windSpeed = data0.currently.windSpeed;
-                    myObj.minutelySummary = data0.minutely.summary;
-                    myObj.hourlySummary = data0.hourly.summary;
-                    myObj.dailySummary = data0.daily.summary;
-                    myObj.icon = data0.currently.icon;
+    var req2 = function(){
 
-                }
-            });
-        };
+        $.ajax({
 
-           var loadingFunc = function(){
-
-                document.getElementById("img1").src = "pic/loading.gif";
-                document.getElementById("imgc").style.display = "block";
-
-                setTimeout(function() {
-                    $('#imgc').fadeOut('fast');
-                }, 14500);
+            type: "GET",
+            async: false,
+            url: proxy + "https://api.darksky.net/forecast/df9589f13905bde2f60be7d1952c77e6/" + lat1 + "," + lon1 ,
+            success: function(data0){
                 
-           };
+                console.log(data0);
+                myObj.temperature = data0.currently.temperature;
+                myObj.humidity = data0.currently.humidity;
+                myObj.summary = data0.currently.summary;
+                myObj.windSpeed = data0.currently.windSpeed;
+                myObj.minutelySummary = data0.minutely.summary;
+                myObj.hourlySummary = data0.hourly.summary;
+                myObj.dailySummary = data0.daily.summary;
+                myObj.icon = data0.currently.icon;
 
-           var loadingError = function(){
-
-            document.getElementById("img1").src = "pic/loadingError.gif";
-            document.getElementById("imgc").style.display = "block";
-        
-            setTimeout(function() {
-             document.getElementById("imgc").style.display = "none";
-            }, 5660);
-           };
-
-           var createMap = function(){
-            mapGoogle = '<iframe src="https://maps.google.com/maps?q=' + lat1 + ',' + lon1 + '&z=11&output=embed&iwloc=0" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>';
-            $("#mapGoogle").append(mapGoogle);
-
-           };
-
-           var createInfo = function(){
-
-
-
-                $("#info").append('<h3>Searched City: ' + myObj.city + ', ' + myObj.regionName + '</h3> <h1>' + myObj.temperature + ' ºF</h1> <h4> Humidity: ' + myObj.humidity + '</h4><h4> WindSpeed: ' + myObj.windSpeed + ' mph</h4> <h5> Currently ' + myObj.summary + ' It is going to be ' + myObj.minutelySummary + ' </h5> <h6> ' + myObj.hourlySummary + ' ' + myObj.dailySummary + ' </h6> <h6> Time zone: ' + myObj.timezone + ' </h6>');
-                $("#lastInfo").append('<p> You are in ' + myObj.fromCountry + ' , in a ' + myObj.from + ' during a ' + myObj.event + ' and the time is: ' + myObj.ourTime + ' </p>');
-
-           };
-
-           var createIcon = function(){
-            document.getElementById("iconImg").src = "icon/"+ myObj.icon +".png";
-            
-            document.getElementById("iconImg").style.display = "block";
-           }
-
-
-            var task = function(){
-           
-            loadingFunc();
-            req1();
-            req2();
-            createMap();
-            createInfo();
-            createIcon();
-             };
-
-        
-        $('#btn').click(function(){
-
-            if ($("#input1").val() !== ''){
-                
-                city = $("#input1").val();
-
-                $("#input1").val("");
-                $("#mapGoogle").html("");
-                $("#info").html("");
-                $("#lastInfo").html("");
-                $("#idc123").html("");
-                document.getElementById("iconImg").style.display = "none";
-
-
-
-                switch (city){
-                    case "New York": {
-                        cityIp = "72.229.28.185";
-                        task();
-                        break;
-                    };
-                    case "Los Angeles": {
-                        cityIp = "104.148.105.5";
-                        task();
-                        break;
-                    };
-                    case "El Paso": {
-                        cityIp = "24.28.170.150";
-                        task();
-                        break;
-                    };
-                    case "Phoenix": {
-                        cityIp = "148.167.2.30";
-                        task();
-                        break;
-                    };
-                    default: {
-                        loadingError();
-                        $("#idc123").text("Sorry, We couldn't retrieve data from the server.");
-                    };
-                }
-
-            }
-            else{
-                $("#input1").val("");
-                $("#mapGoogle").html("");
-                $("#info").html("");
-                $("#lastInfo").html("");
-                $("#idc123").html("");
-                document.getElementById("iconImg").style.display = "none";
-                $("#idc123").text("Well, you need to type in something...");
             }
         });
+    };
+
+    var loadingFunc = function(){
+
+        document.getElementById("img1").src = "pic/loading.gif";
+        document.getElementById("imgc").style.display = "block";
+
+        setTimeout(function() {
+            $('#imgc').fadeOut('fast');
+        }, 5000);
+        
+    };
+
+
+    var loadingError = function(){
+
+        document.getElementById("img1").src = "pic/loadingError.gif";
+        document.getElementById("imgc").style.display = "block";
+        setTimeout(function() {
+
+            document.getElementById("imgc").style.display = "none";
+        }, 5660);
+    };
+
+    var createMap = function(){
+
+        mapGoogle = '<iframe src="https://maps.google.com/maps?q=' + lat1 + ',' + lon1 + '&z=11&output=embed&iwloc=0" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>';
+        $("#mapGoogle").append(mapGoogle);
+    };
+
+    var createInfo = function(){
+
+        $("#info").append('<h3>Searched City: ' + myObj.city + ', ' + myObj.regionName + '</h3> <h1>' + myObj.temperature + ' ºF</h1> <h4> Humidity: ' + myObj.humidity + '</h4><h4> WindSpeed: ' + myObj.windSpeed + ' mph</h4> <h5> Currently ' + myObj.summary + ' It is going to be ' + myObj.minutelySummary + ' </h5> <h6> ' + myObj.hourlySummary + ' ' + myObj.dailySummary + ' </h6> <h6> Time zone: ' + myObj.timezone + ' </h6>');
+        $("#lastInfo").append('<p> You are in ' + myObj.fromCountry + ' , in a ' + myObj.from + ' during a ' + myObj.event + ' and the time is: ' + myObj.ourTime + ' </p>');
+
+    };
+
+    var createIcon = function(){
+
+        document.getElementById("iconImg").src = "icon/"+ myObj.icon +".png";
+        document.getElementById("iconImg").style.display = "block";
+    };
+
+
+    var task = function(){
+    
+        loadingFunc();
+        req1();
+        req2();
+        createMap();
+        createInfo();
+        createIcon();
+    };
+
+    var clearPage = function(){
+
+        $("#input1").val("");
+        $("#mapGoogle").html("");
+        $("#info").html("");
+        $("#lastInfo").html("");
+        $("#idc123").html("");
+        document.getElementById("iconImg").style.display = "none";
+    };
+
+        
+    $('#btn').click(function(){
+
+        if ($("#input1").val() !== ''){
+            
+            city = $("#input1").val();
+
+            clearPage();
+
+            switch (city){
+
+                case "New York": {
+                    cityIp = "72.229.28.185";
+                    task();
+                    break;
+                };
+                case "Los Angeles": {
+                    cityIp = "104.148.105.5";
+                    task();
+                    break;
+                };
+                case "El Paso": {
+                    cityIp = "24.28.170.150";
+                    task();
+                    break;
+                };
+                case "Phoenix": {
+                    cityIp = "148.167.2.30";
+                    task();
+                    break;
+                };
+                default: {
+                    loadingError();
+                    $("#idc123").text("Sorry, We couldn't retrieve data from the server.");
+                };
+            };
+        }
+        else{
+            
+            clearPage();
+            $("#idc123").text("Well, you need to type in something...");
+        }
+    });
 
 
 });
