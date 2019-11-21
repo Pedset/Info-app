@@ -1,3 +1,9 @@
+
+body {
+    background: aliceblue;
+}
+
+
 #imgc {
     display: none;
     text-align: center;
@@ -13,6 +19,7 @@
     display: none;
     text-align: center;
     height: 200px;
+    position: absolute;
 }
 
 
